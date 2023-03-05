@@ -1,0 +1,280 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+
+typedef int ElemType;
+typedef struct LNode{
+    int data;
+    struct LNode * next;
+
+}LNode,*LinkList;
+
+//单链表的初始化
+bool InitList(LinkList &L){//传入头节点,并且要改变头节点 LinkList 是 指针变量，如果不用引用只会在该函数中改变L的值，在主函数不会改变
+    L = (LNode *)malloc(sizeof(LNode));//初始化头节点
+    if(L == NULL){
+        return false;
+    }
+    L->next = NULL;
+    return true;
+}
+//单链表的初始化
+
+
+//判断单链表是否为空
+bool IsEmpty(LinkList L){
+    if (L->next == NULL){
+        return true;//单链表为空 返回值为真，我们设置的函数名是问 单链表是不是为空
+    }else{
+        return false;
+    }
+
+}
+//判断单链表是否为空
+
+
+
+//输出单链表所有元素
+bool AllOutPut(LinkList L){
+    if(IsEmpty(L)){
+        return false;
+    }
+
+    LNode * p = L;
+    while(p->next != NULL){
+        printf("%d\n",p->next->data);
+        p = p->next;
+
+    }
+    return true;
+}
+//输出单链表所有元素
+
+//求表的长度
+int CalLength(LinkList L){
+
+    LNode * p = L;
+    int i = 0;
+    while(p->next != NULL){
+        p = p->next;
+        i++;
+
+    }
+    printf("表的长度为 %d \n",i);
+    return i;
+
+
+}
+//求表的长度
+
+//按照指定位置查找元素
+LNode * PosSearch(LinkList L,int pos){
+    LNode * p;
+    if(pos < 0 || pos > CalLength(L)){
+        printf("查找的位置无效");
+        return p;
+    }
+
+    p = L;
+    int count = 0;
+    while(p!=NULL && count < pos){//  0 1 2 3
+        p = p->next;
+        count++;
+    }
+    printf("查找的位置有效,对应节点的值为 %d ,并且根据该函数的返回值类型，已返回相对应的节点\n",p->data);
+    return p;
+
+}
+//按照指定位置查找元素
+
+//按照给定的值查找元素
+LNode * ValSearch(LinkList L,int val){
+
+    LNode * p = L->next;
+    int count = 1;
+    while(p != NULL && p->data != val){ // 0 1 2 3
+        //   1 2 3
+        p = p->next;
+        count++;
+
+    }
+    if(p==NULL){
+        printf("该链表里面没有给定值\n");
+        return p;
+    }
+    printf("已找到该节点,该节点的是第 %d 个节点\n",count);
+    return p;
+
+
+}
+//按照给定的值查找元素
+
+
+//在指定位置插入元素 L-> Head -> N1 -> N2 -> N3
+bool PosInsert(LinkList &L,int pos,int val){
+    if(pos<1){
+        return false;
+    }
+    LinkList p;
+    int j = 0;
+    p = L;
+
+
+    while(p!=NULL && j < pos-1){//防止隔空输入，并且保证找到插入位置前一个节点的、，并且该节点一定有效
+
+        p = p->next;
+        j++;
+
+    }
+
+    if (p == NULL) {
+        printf("给定位置不符合要求\n");
+        return false;
+    }
+
+
+    LNode * New = (LNode *)malloc(sizeof(LNode));
+    New->data = val;
+    New->next = p->next;
+    p->next = New;
+
+    return true;
+
+}
+//在指定位置插入元素
+
+
+//删除指定位置的元素
+bool PosDelete(LinkList &L,int pos,int &ReVal){
+    if(pos < 1){
+        printf("给定位置不符合要求\n");
+        return false;
+    }
+
+    LinkList p = L;
+    int count = 0;
+    while(p!=NULL && count<pos-1){
+        p = p->next;
+        count++;
+    }   //0123   123
+
+    if(p==NULL){
+        return false;
+    }
+
+    ReVal = p->next->data;
+    p->next = p->next->next;
+
+
+
+    return true;
+
+
+
+
+}
+//删除指定位置的元素
+
+//删除指定值的元素
+bool ValDelete(LinkList &L ,int GivenVal){
+    LinkList p = L;
+
+    while(p!=NULL){
+        if(p->next->data == GivenVal){
+
+            p->next = p->next->next;
+            printf("已经找到需要删除的值，并且已经删除\n");
+
+            return true;
+
+        }
+        p = p->next;
+    }
+    return false;
+
+
+}
+//删除指定值的元素
+
+//尾插法创建单链表
+LinkList TailInsertCreate(LinkList &L){
+    int x;
+    L = (LNode *)malloc(sizeof(LNode));//创建头节点，并且初始化
+    L->next = NULL;
+    LinkList current,last = L;
+    scanf("%d",&x);
+    while(x!=9999){
+        current = (LNode *)malloc(sizeof(LNode));
+        current->data = x;
+        last->next = current;
+        last = current;
+
+        scanf("%d",&x);
+
+    }
+    last->next = NULL;
+    return L;
+
+}
+//尾插法创建单链表
+
+//头插法创建单链表
+
+LinkList HeadInsertCreate(LinkList &L){
+    L = (LinkList)malloc(sizeof(LNode));
+    L->next = NULL;
+    int x;
+    scanf("%d",&x);
+    LinkList current = NULL;
+    while(x != 9999){
+        current = (LinkList)malloc(sizeof(LNode));
+        current->data = x;
+        current->next = L->next;
+        L->next = current;
+        scanf("%d",&x);
+    }
+
+    return L;
+
+
+
+}
+
+//头插法创建单链表
+
+
+
+int main(){
+    LinkList L;
+//    TailInsertCreate(L);
+    bool ret;
+    InitList(L);
+    IsEmpty(L);
+    ret = PosInsert(L,1,1);
+//    printf("%d\n",ret);
+//    printf("%d\n",L->next->data);
+
+    PosInsert(L,2,2);
+    PosInsert(L,3,3);
+    PosInsert(L,10,10);
+    AllOutPut(L);
+    CalLength(L);
+    PosSearch(L,3);
+    PosSearch(L,100);
+    ValSearch(L,100);
+    ValSearch(L,3);
+    PosInsert(L,4,4);
+    int ReVal;
+    PosDelete(L,4,ReVal);
+    printf("被删除的值为 %d \n",ReVal);
+    AllOutPut(L);
+    PosInsert(L,4,4);
+    AllOutPut(L);
+    ValDelete(L,4);
+    AllOutPut(L);
+
+
+
+
+
+}
