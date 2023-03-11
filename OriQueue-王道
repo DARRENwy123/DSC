@@ -1,0 +1,93 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+#define MaxSize 10
+typedef int ElemType;
+
+
+typedef struct OriginalQueue{
+    int data[MaxSize];
+    int front,rear;
+    int UpperLimit;
+
+}OriginalQueue;
+
+bool InitQueue(OriginalQueue &OQ){
+    OQ.front = OQ.rear = 0;
+    OQ.UpperLimit = 0;
+    return true;
+
+}
+
+bool EmptyQueue(OriginalQueue OQ){
+    if(OQ.rear==OQ.front){
+        printf("emptyqueue_void\n");
+        return true;
+
+    }
+    return false;
+}
+
+bool InQueue(OriginalQueue &OQ,int InVal){
+    if(OQ.UpperLimit == MaxSize-1){
+        printf("InQueue_Maxsize\n");
+        return false;
+    }else{
+        OQ.data[OQ.rear] = InVal;
+        OQ.rear++;
+        OQ.UpperLimit++;
+        return true;
+
+    }
+}
+
+bool OutQueue(OriginalQueue &OQ){
+    if(OQ.rear == 0 && OQ.front == 0){
+        printf("OutQueue_void\n");
+        return false;
+
+    }else{
+        int x;
+        x = OQ.data[OQ.front];
+        OQ.data[OQ.front] = 0;
+        OQ.front++;
+        OQ.UpperLimit--;
+        printf("delete_value is %3d \n",x);
+    }
+
+    return true;
+
+}
+
+
+
+
+
+
+
+
+bool TraQueue(OriginalQueue OQ){
+    while(OQ.front != OQ.rear){
+        printf(" |%3d  | \n",OQ.data[OQ.front]);
+        OQ.front++;
+    }
+    return true;
+
+}
+
+int main(){
+    printf("wangyaunwansui!\n");
+    OriginalQueue OQ ;
+    InitQueue(OQ);
+    EmptyQueue(OQ);
+    InQueue(OQ,1);
+    InQueue(OQ,2);
+    InQueue(OQ,3);
+    InQueue(OQ,4);
+    InQueue(OQ,5);
+
+//    OutQueue(OQ);
+    TraQueue(OQ);
+
+
+}
