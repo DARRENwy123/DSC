@@ -1,0 +1,234 @@
+#include<stdio.h>
+#include<stdlib.h>
+// 不带头节点的单链表
+
+typedef int ElemType;
+typedef struct LNode{
+
+    int data;
+    struct LNode * next;
+
+}LN,*LL;
+
+bool Init(LL &L){
+    L = NULL;
+    if(L != NULL){
+        return false;
+    }
+    return true;
+}
+
+
+bool Empty(LL L){
+    if(L == NULL){
+        printf("Empty_void\n");
+        return true;
+
+    }
+
+    return false;
+}
+
+//L 1 2 3 4 5
+bool PosIn(LL &L ,int Pos,int InVal){
+    if(Pos<1){
+        return false;
+    }
+
+    if(L == NULL && Pos == 1){
+        LL NewN = (LL)malloc(sizeof(LN));
+        NewN->data = InVal;
+        NewN->next = NULL;
+        L = NewN;
+
+    } else if(L!=NULL){
+        LL p = L;
+        int count = 1;// 1(L) 2 3 4 5
+        while(p!=NULL && count < Pos-1){
+            p = p->next;
+            count++;
+
+        }
+
+        LL NewN = (LL)malloc(sizeof(LN));
+        NewN->data = InVal;
+        NewN->next = p->next;
+        p->next = NewN;
+
+
+    }
+
+
+
+
+
+    /*
+     * LL p = L;
+     * find the prior_node:
+     * while(p!=NULL && count<Pos-1){
+     *
+     *
+     *
+     *
+     * }
+     *
+     *
+     *
+     *
+     *
+     * */
+
+
+
+
+}
+
+
+bool TailIn(LL &L){
+    printf("please input the value that you need to insert in the head\n ");
+    int x;
+    scanf("%d",&x);
+    LL cp = L;
+    while(x != 10000){
+
+        if(L==NULL){
+            LL NewN = (LL)malloc(sizeof(LN));
+            NewN->data = x;
+            L = NewN;
+            cp = L;
+        }else{
+
+//            LL NewN = (LL)malloc(sizeof(LN));
+//            NewN->data = x;
+//            LL cp = L;
+//            // (L)1 2 3 4 5
+//            while(cp->next!=NULL){
+//                cp = cp->next;
+//            }
+//            cp->next = NewN;
+//            NewN->next = NULL;
+            LL NewN = (LL)malloc(sizeof(LN));
+            NewN->data = x;
+            // (L)1 2 3
+
+            cp->next = NewN;
+            cp = NewN;
+
+
+
+
+
+
+        }
+
+
+
+        scanf("%d",&x);
+    }
+    return true;
+
+}
+
+bool HeadIn(LL &L){
+
+    printf("please input the value that you need to insert in the head\n ");
+    int x;
+    scanf("%d",&x);
+    while(x!=10000){
+
+        LL NewN = (LL)malloc(sizeof(LN));
+        NewN->data = x;//正常变换
+
+        if(L==NULL){
+            L = NewN;
+
+
+        }else{
+
+            NewN->next = L;
+            //s->next=L
+            L = NewN;//改了L->data 的值，使得 整个列表输入到最后就一个值
+
+        }
+        scanf("%d",&x);
+
+    }
+
+
+    //1（L）2   原先的值被替换掉了
+
+
+    return true;
+
+}
+
+bool PosDel(LL &L , int Pos ,int & DelVal){
+
+    if(Pos<1){
+        printf("PosDel_Pos_Err\n");
+        return false;
+    }
+
+    if(L == NULL){
+        printf("PosDel_NULL\n");
+        return false;
+    }
+
+    LL p = L;
+    if(L!=NULL && Pos==1){
+
+        // 1（L） 2 3 4 5
+        DelVal = L->data;
+        L = L->next;
+        return true;
+
+    }else if (L != NULL && Pos!=1){
+        LL p = L;
+        int count  = 1;
+
+        while(p!=NULL && count < Pos-1){
+            p = p->next;
+            count++;
+
+        }
+        DelVal = p->next->data;
+        p->next = p->next->next;
+        return true;
+    }
+
+}
+
+
+bool Tra(LL L){
+    if(Empty(L)){
+        printf("Tra_Void");
+        return false;
+    }
+
+    while(L!=NULL){
+        printf(" %3d \n",L->data);
+        L = L->next;
+    }
+    return true;
+}
+
+
+int main(){
+    printf("###\n");
+    LL L;
+    int DelVal;
+    Init(L);
+//    PosIn(L,1,1);
+//    PosIn(L,2,2);
+//    PosIn(L,3,3);
+//    PosIn(L,4,4);
+//    PosIn(L,5,5);
+//    HeadIn(L);
+    TailIn(L);
+
+//    printf(" %3d \n",DelVal);
+//    printf(" %3d \n",L->next->next->next->next->data);
+    printf("%%%%%%%%%%%%\n");
+
+    Tra(L);
+}
